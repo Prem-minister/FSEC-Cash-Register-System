@@ -1,0 +1,281 @@
+.MODEL small
+.STACK 100h
+.DATA
+
+;welcome message
+M1 db 10, 09, 09, "**** Welcome to FSEC-SS Cash Register System ****$"
+M2 db 10, 09, 09, 09, "  Event: Battle of Hackers 2022$"
+M3 db 10, 13, " Main Menu:$"
+
+;workshop category
+M4 db 10, 13,"          **                     Workshops                        **$"
+;list of workshops
+M7 db 10, 13,"          **  1. Phishing Attacks Workshop        (Fees : RM 10)  **$"
+M8 db 10, 13,"          **  2. Mobile Device Security Workshop  (Fees : RM 15)  **$"
+M9 db 10, 13,"          **  3. Cloud Security Workshop          (Fees : RM 10)  **$"  
+
+;competitions competitions
+M5 db 10, 13,"          **                   Competitions                       **$"
+;list of competitions   
+M10 db 10,13,"          **  4. Jeopardy CTF & Writeup           (Fees: RM 100)  **$"
+M11 db 10,13,"          **  5. CTF Attack-Defence               (Fees: RM 150)  **$"  
+
+;activity category
+M6 db  10,13,"          **                     Activites                        **$"
+;list of activities
+M12 db 10,13,"          **  6.Fun Puzzle Solving                (Fees: RM 5)    **$"
+M13 db 10,13,"          **  7.Treasure Hunt                     (Fees: RM 5)    **$"
+
+;enter to menu
+M14 db 10, 13,"                         Press ENTER to view main menu             $"
+M15 db 10, 09, 13, "Exit Program$"
+M16 db 10, 09, 13, "                         Invalid Option Selected$"
+M17 db 10, 09, 13, "                          ## Please Try Again ##$"
+
+;options
+M18 db 10, 13, "  Please enter options number:$"
+M19 db 10, 13, "  1) Show Main Menu of Events$"
+M20 db 10, 13, "  2) Exit the Program$"
+M21 db 10, 13, "  Your Option: $"
+
+M22 db 10, 09, 13, "  1) Purchase events$"
+M23 db 10, 09, 13, "  2) Go back to main menu$"
+
+;club 50% discount
+discount db "FSEC50$" 
+
+;borders
+BR1 db 10,13,"          **                                                      **$"
+BR2 db 10,13,"          **********************************************************$"
+;separator
+SP1 db 10,13,"--------------------------------------------------------------------------------$"
+
+;blank
+BK db 10,13, " $"
+
+.CODE
+
+Main proc
+    mov ax, @data
+    mov ds, ax
+
+
+    TOP:
+      ;main program title
+       mov ah, 09h
+       mov dx, offset M1
+       int 21h
+
+        ;separator
+        mov ah, 09h
+        mov dx, offset SP1
+        int 21h
+    
+        ;battleofhackerstitle
+        mov ah, 09h
+        mov dx, offset M2
+        int 21h
+
+        ;separator
+        mov ah, 09h
+        mov dx, offset SP1
+        int 21h
+
+        ;plsenter
+        ; mov ah, 09h
+        ; mov dx, offset M14
+        ; int 21h
+
+    TOPOPTIONS:
+
+        mov ah, 09h
+        mov dx, offset M18
+        int 21h
+
+        mov ah, 09h
+        mov dx, offset M19
+        int 21h
+
+        mov ah, 09h
+        mov dx, offset M20
+        int 21h
+
+        ;newline
+        mov ah, 09h
+        mov dx, offset BK
+        int 21h
+        
+        ;newline
+        mov ah, 09h
+        mov dx, offset BK
+        int 21h
+
+        mov ah, 09h
+        mov dx, offset M21
+        int 21h
+
+        ; mov ah,1
+        ; int 21h
+        ; mov bh,al
+        ; sub bh,48
+
+        mov ah, 01h  ;calling function reserved command to get input from user
+        mov dl, al
+        int 21h
+    
+        cmp al, '1'
+        je MAINMENULISTINGS
+
+        cmp al, '2'
+        je EXITPROGRAM
+        
+        jmp INVALIDENTRY
+        
+    MAINMENULISTINGS:      
+        ;main menu
+        mov ah, 09h
+        mov dx, offset M3
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR2
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR2
+        int 21h
+    
+    WOKSHOPS:
+        ;wokshops title
+        mov ah, 09h
+        mov dx, offset M4
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR1
+        int 21h
+    
+        ;wokshops lists
+        mov ah, 09h
+        mov dx, offset M7
+        int 21h
+
+        mov ah, 09h
+        mov dx, offset M8
+        int 21h
+
+        mov ah, 09h
+        mov dx, offset M9
+        int 21h
+
+        ;break lines
+        mov ah, 09H
+        mov dx, offset BR1
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR1
+        int 21h
+
+    COMPETITIONS:
+        ;competition title
+        mov ah, 09h
+        mov dx, offset M5
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR1
+        int 21h
+
+        ;competition lists
+        mov ah, 09h
+        mov dx, offset M10
+        int 21h
+
+        mov ah, 09h
+        mov dx, offset M11
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR1
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR1
+        int 21h
+
+    ACTIVITIES:
+        ;activity title
+        mov ah, 09h
+        mov dx, offset M6
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR1
+        int 21h
+
+        ;activity lists
+        mov ah, 09h
+        mov dx, offset M12
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR2
+        int 21h
+
+        mov ah, 09H
+        mov dx, offset BR2
+        int 21h
+
+    MAINMENUOPTIONS:
+            ;options
+            mov ah, 09h
+            mov dx, offset M22
+            int 21h
+
+            mov ah, 09h
+            mov dx, offset M23
+            int 21h
+
+            ;newline
+            mov ah, 09h
+            mov dx, offset BK
+            int 21h
+
+            mov ah, 09h
+            mov dx, offset M21
+            int 21h
+
+            mov ah, 01h  ;calling function reserved command to get input from user
+            mov dl, al
+            int 21
+
+            cmp bh, '1'
+            jmp MAINMENULISTINGS
+
+            cmp bh, '2'
+            jmp TOP
+
+            jmp INVALIDENTRY
+
+    INVALIDENTRY:
+        mov ah, 09H
+        mov dx, offset M16
+        int 21h
+              
+        mov ah, 09H
+        mov dx, offset M17
+        int 21h
+
+       ;newline
+        mov ah, 09h
+        mov dx, offset BK
+        int 21h
+
+  
+    EXITPROGRAM:
+        mov ah, 4ch
+        int 21h
+        Main endp
+
+End main
